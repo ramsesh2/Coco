@@ -41,13 +41,17 @@ with open('Orders.csv', 'r') as orders:
 
 print quantity
 print price
-
+print unit_price
 priceAscending = sorted(price, key=lambda entry: unit_price[entry])
 print priceAscending
 sales = {}
 revenue = 0
 while supply > 0:
+	if not priceAscending:
+		break
 	company = priceAscending.pop()
+	print supply
+	print company
 	if supply - quantity[company] < 0:
 		continue
 		'''
