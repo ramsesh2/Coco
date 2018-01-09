@@ -39,19 +39,19 @@ with open('Orders.csv', 'r') as orders:
 		unit_price[row[0]] = float(row[2])/int(row[1])
 		price[row[0]] = int(row[2])
 
-print quantity
-print price
-print unit_price
+#print quantity
+#print price
+#print unit_price
 priceAscending = sorted(price, key=lambda entry: unit_price[entry])
-print priceAscending
+#print priceAscending
 sales = {}
 revenue = 0
 while supply > 0:
 	if not priceAscending:
 		break
 	company = priceAscending.pop()
-	print supply
-	print company
+#	print supply
+#	print company
 	if supply - quantity[company] < 0:
 		continue
 		'''
@@ -63,5 +63,9 @@ while supply > 0:
 		supply -= quantity[company]
 		revenue += price[company]
 
-print sales
-print revenue
+print 'Should complete the following orders:'
+quant = 0
+for s in sales:
+	print 'Company: ', s, '   Amount: ', quantity[s],'   Price: ', price[s]
+	quant+= quantity[s]
+print 'Total Quantity: ', quant, 'Total Revenue: ', revenue
