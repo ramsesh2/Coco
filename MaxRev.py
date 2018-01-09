@@ -27,39 +27,25 @@ with open('Orders.csv', 'r') as orders:
 best = []
 
 
-def pick(stock, comps, cur, temp, rev):
-	print temp
+def pick(stock, comps):
+	print stock
 	if not comps:
 		return 0
-	if stock < 0:
-		c = temp.pop()
-		return rev - price[c]
-	elif stock == 0:
-		return rev
+	if stock == 0:
+		return 0
+	last = comps.pop()
+
+	if stock - quantity[last] < 0:
+		return pick(stock, comps)
+
 	else:
-		comps.remove(cur)
-		for company in comps:
-			prev = temp[:]
-			temp.append(company)
-			sel = pick(stock-quantity[company], comps[:], company, temp, rev+price[company])
-			notsel = pick(stock, comps[:], company, prev, rev)
-			if sel > notsel:
-				rev = sel
-			else:
-				rev = notsel
-		return rev
+		sel = price[last] + pick(stock-quantity[last], comps)
+		notsel = pick(stock, comps)
+		if(sel > notsel):
+			best.append(last)
+			return sel
+		else:
+			return notsel
 
-rev = 0
-
-for c in companies:
-	temp = [c]
-	prev = []
-	sel = pick(supply-quantity[c], companies[:], c, temp, price[c])
-	notsel = pick(supply, companies[:], c, prev, 0)
-	if sel > rev:
-		rev = sel
-		best = temp
-	if notsel > rev:
-		rev = notsel
-		best = prev
+print pick(supply, companies)
 print best
